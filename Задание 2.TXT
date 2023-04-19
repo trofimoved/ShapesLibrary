@@ -1,0 +1,43 @@
+create table product
+(
+  id int NOT NULL,
+  name varchar(50),
+  CONSTRAINT product_pk PRIMARY KEY (id)
+);
+
+create table category
+(
+  id int NOT NULL,
+  name varchar(50),
+  CONSTRAINT category_pk PRIMARY KEY (id)
+);
+
+create table product_category
+(
+  product_id int,
+  category_id int,
+  CONSTRAINT product_category_pk PRIMARY KEY (product_id, category_id),
+  CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES product (id),
+  CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category (id)
+);
+
+insert into product (id, name) values 
+(1, 'Product1'),
+(2, 'Product2'),
+(3, 'Product3');
+
+insert into category (id, name) values 
+(1, 'Category1'),
+(2, 'Category2'),
+(3, 'Category3');
+
+insert into product_category (product_id, category_id) values 
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2);
+
+select p.name as product_name, c.name as category_name
+from product p
+left join product_category pc on pc.product_id = p.id
+left join category c on pc.category_id = c.id
