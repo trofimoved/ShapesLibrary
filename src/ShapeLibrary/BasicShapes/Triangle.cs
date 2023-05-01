@@ -50,32 +50,33 @@ namespace ShapeLibrary.BasicShapes
             SideB = b;
             SideC = c;
             _precision = precision;
-            _area = new Lazy<double>(() => ShapeMath.TriangleArea(SideA, SideB, SideC));
-            _isRightTriangle = new Lazy<bool>(CheckIsRightTriangle);
+            _area = new Lazy<double>(() => CalculateArea(SideA, SideB, SideC));
+            _isRightTriangle = new Lazy<bool>(() => CheckIsRightTriangle(SideA, SideB, SideC, _precision));
         }
 
-        private bool CheckIsRightTriangle()
+        private static double CalculateArea(double a, double b, double c)
         {
-            var longestSide = GetLongestSide();
-            return Math.Abs((longestSide * longestSide * 2) - (SideA * SideA + SideB * SideB + SideC * SideC)) <= _precision;
+            double p = (a + b + c) * 0.5;
+            return Math.Sqrt(p * (p - a) * (p - b) * (p - c));
         }
 
-        private double GetLongestSide()
+        private static bool CheckIsRightTriangle(double a, double b, double c, double precision)
         {
-            if (SideA >= SideB)
+            var longestSide = GetLongestSide(a, b, c);
+            return Math.Abs((longestSide * longestSide * 2) - (a * a + b * b + c * c)) <= precision;
+        }
+
+        private static double GetLongestSide(double a, double b, double c)
+        {
+            if (a >= b && a >= c)
             {
-                if (SideA >= SideC)
-                    return SideA;
-                else
-                    return SideC;
+                return a;
             }
-            else
+            if (b >= a && b >= c)
             {
-                if (SideB >= SideC)
-                    return SideB;
-                else
-                    return SideC;
+                return b;
             }
+            return c;
         }
     }
 }

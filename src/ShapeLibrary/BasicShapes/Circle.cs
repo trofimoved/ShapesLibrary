@@ -20,7 +20,9 @@ namespace ShapeLibrary.BasicShapes
             if (r < 0)
                 throw new ArgumentOutOfRangeException("Значение радиуса не может быть отрицательным", nameof(r));
             Radius = r;
-            _area = new Lazy<double>(() => ShapeMath.CircleArea(Radius));
+            _area = new Lazy<double>(() => CalculateArea(Radius));
         }
+
+        private static double CalculateArea(double r) => Math.PI * r * r;
     }
 }
