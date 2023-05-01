@@ -10,7 +10,7 @@ namespace ShapeLibrary.Tests
         private const int _precision = 5;
 
         [Theory]
-        [MemberData(nameof(TestInvalidTriangleValdationData))]
+        [MemberData(nameof(TestInvalidCircleValdationData))]
         public void TestInvalidCircleValidation(Type expectedExceptionType, double r)
         {
             Assert.Throws(expectedExceptionType, () => new Circle(r));
@@ -107,7 +107,7 @@ namespace ShapeLibrary.Tests
 
             public double SideA { get; }
             public double SideB { get; }
-            public double Area => ShapeMath.RectangleArea(SideA, SideB);
+            public double Area => SideA * SideB;
         }
     }
 }
